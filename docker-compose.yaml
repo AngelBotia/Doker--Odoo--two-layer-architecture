@@ -1,0 +1,39 @@
+version: '3.8'
+services:
+  web:
+    build: ./Odoo/.
+    ports: 
+      - 8069:8069
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USER=angel
+      - DB_PASSWORD=pepito33
+      - DB=ANGEL
+      - ADMIN_PASS=mysupersecretpassword
+    networks:
+      - my_puente_mis_normas
+    depends_on:
+      db:
+        condition: service_healthy
+   
+
+  db:
+
+    build: ./DB/.
+
+    volumes:
+      - mydata:/var/lib/postgresql
+    networks:
+      - my_puente_mis_normas
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      timeout: 2s
+      retries: 100
+
+networks:
+  my_puente_mis_normas:
+    driver: bridge
+
+volumes:
+  mydata:

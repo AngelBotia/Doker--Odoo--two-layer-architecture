@@ -1,1 +1,0 @@
-# Doker--Odoo--two-layer-architecture
